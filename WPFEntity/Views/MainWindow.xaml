@@ -74,7 +74,7 @@
                 <lvc:Axis MinRange="1" MaxRange="31" Title="Month" Labels="{Binding RowSeriesLabels}" Separator="{Binding DaysSeparator}" />
             </lvc:CartesianChart.AxisX>
             <lvc:CartesianChart.AxisY>
-                <lvc:Axis Title="Sales" />
+                <lvc:Axis Title="Steps" />
             </lvc:CartesianChart.AxisY>
         </lvc:CartesianChart>
     </Grid>
