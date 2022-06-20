@@ -5,7 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WPFEntity"
         
-        xmlns:viewmodels="clr-namespace:WPFEntity.ViewModels" xmlns:b="http://schemas.microsoft.com/xaml/behaviors"
+        xmlns:viewmodels="clr-namespace:WPFEntity.ViewModels" 
+        xmlns:b="http://schemas.microsoft.com/xaml/behaviors"
         xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
         
         mc:Ignorable="d"

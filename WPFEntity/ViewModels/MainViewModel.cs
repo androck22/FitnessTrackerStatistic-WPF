@@ -35,7 +35,8 @@ namespace WPFEntity.ViewModels
             users = new List<User>();
             UsersMonthStatistics = new ObservableCollection<UserMonthStatistics>();
 
-            ProcessUsersMonthStatisticsSelectionChangedCommand = new RelayCommand(s => ProcessUsersMonthStatisticsSelectionChanged());
+            ProcessUsersMonthStatisticsSelectionChangedCommand =
+                new RelayCommand(s => ProcessUsersMonthStatisticsSelectionChanged());
             LoadUsersCommand = new RelayCommand(s => LoadUsers());
 
             RowSeries = new ChartValues<DataModel>();
@@ -51,13 +52,11 @@ namespace WPFEntity.ViewModels
         {
             if (SelectedUsersMonthStatistics != null)
             {
-                RowSeries.Clear();
                 RowSeries.AddRange(
                     users.Where(u => u.Name == SelectedUsersMonthStatistics.Name)
                          .OrderBy(u => u.Day)
                          .Select(u => new DataModel(u.Steps, u.Day)));
 
-                RowSeriesLabels.Clear();
                 RowSeriesLabels.AddRange(RowSeries.Select(r => r.Label));
             }
             else
@@ -68,6 +67,11 @@ namespace WPFEntity.ViewModels
 
         private void LoadUsers()
         {
+            users.Clear();
+            UsersMonthStatistics.Clear();
+            RowSeries.Clear();
+            RowSeriesLabels.Clear();
+
             OpenFileDialog openFileDialog = new OpenFileDialog() { Filter = "Json Documents(*.json)|*.json", ValidateNames = true, Multiselect = true };
 
             Nullable<bool> dialogOK = openFileDialog.ShowDialog();
@@ -97,17 +101,18 @@ namespace WPFEntity.ViewModels
 
                     var data = JsonConvert.DeserializeObject<List<JsonModel>>(strResult);
 
-                    UploadFile(data, day);
+                    //UploadFile(data, day);
+                    users.AddRange(data.Select(d => new User { Rank = d.Rank, Day = day, Name = d.User, Steps = d.Steps, Status = d.Status }));
+
                 }
+
+                UpdateStatistics();
 
                 ProcessUsersMonthStatisticsSelectionChanged();
             }
         }
-        private void UploadFile(List<JsonModel> data, int day)
+        private void UpdateStatistics()
         {
-            users.AddRange(data.Select(d => new User { Rank = d.Rank, Day = day, Name = d.User, Steps = d.Steps, Status = d.Status }));
-
-            UsersMonthStatistics.Clear();
             UsersMonthStatistics.AddRange(
                 users.GroupBy(user => user.Name)
                      .Select(group => new UserMonthStatistics(
