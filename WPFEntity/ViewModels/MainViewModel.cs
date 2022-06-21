@@ -52,6 +52,7 @@ namespace WPFEntity.ViewModels
         {
             if (SelectedUsersMonthStatistics != null)
             {
+                RowSeries.Clear();
                 RowSeries.AddRange(
                     users.Where(u => u.Name == SelectedUsersMonthStatistics.Name)
                          .OrderBy(u => u.Day)
@@ -69,8 +70,6 @@ namespace WPFEntity.ViewModels
         {
             users.Clear();
             UsersMonthStatistics.Clear();
-            RowSeries.Clear();
-            RowSeriesLabels.Clear();
 
             OpenFileDialog openFileDialog = new OpenFileDialog() { Filter = "Json Documents(*.json)|*.json", ValidateNames = true, Multiselect = true };
 
@@ -113,6 +112,7 @@ namespace WPFEntity.ViewModels
         }
         private void UpdateStatistics()
         {
+            RowSeriesLabels.Clear();
             UsersMonthStatistics.AddRange(
                 users.GroupBy(user => user.Name)
                      .Select(group => new UserMonthStatistics(
